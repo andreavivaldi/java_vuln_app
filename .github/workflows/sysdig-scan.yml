@@ -42,7 +42,7 @@ jobs:
       #   https://app.au1.sysdig.com  (AUS)
       # -------------------------------------------------------------------
       - name: Sysdig Secure Image Scan
-        uses: sysdig/scan-action@v5
+        uses: sysdiglabs/scan-action@v6
         with:
           image-tag: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
           sysdig-secure-token: ${{ secrets.SYSDIG_SECURE_TOKEN }}
