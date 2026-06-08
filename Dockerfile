@@ -1,5 +1,5 @@
 # Deliberately old base image with known CVEs for demo purposes
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-jammy
 
 LABEL maintainer="demo@sysdig.com"
 LABEL description="Intentionally vulnerable Spring Boot app for Sysdig pipeline scanning demo"
