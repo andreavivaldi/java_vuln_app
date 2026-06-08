@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">VulnApp</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #1a1a2e; color: #eee; }
+        h1 { color: #e94560; }
+        .card { background: #16213e; border-radius: 8px; padding: 20px; margin: 16px 0; border: 1px solid #0f3460; }
+        .card h3 { color: #e94560; margin-top: 0; }
+        input { padding: 8px; width: 60%; border-radius: 4px; border: 1px solid #0f3460; background: #0f3460; color: #eee; }
+        button { padding: 8px 16px; background: #e94560; border: none; border-radius: 4px; color: white; cursor: pointer; }
+        .badge { display: inline-block; background: #e94560; color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
+        a { color: #e94560; }
+    </style>
+</head>
+<body>
+    <h1>⚠️ VulnApp <span class="badge">DEMO - INTENTIONALLY VULNERABLE</span></h1>
+    <p>This app is intentionally vulnerable for Sysdig pipeline scanning demos. <b>Do not deploy in production.</b></p>
+
+    <div class="card">
+        <h3>SQL Injection + XSS + Log4Shell <span class="badge">CVE-2021-44228</span></h3>
+        <p>Search users — try <code>' OR '1'='1</code> for SQLi, or <code>${jndi:ldap://...}</code> for Log4Shell</p>
+        <input id="q" placeholder="username or payload" />
+        <button onclick="location.href='/search?query='+document.getElementById('q').value">Search</button>
+    </div>
+
+    <div class="card">
+        <h3>Command Injection</h3>
+        <p>Ping a host — try <code>127.0.0.1; id</code></p>
+        <input id="h" placeholder="hostname" />
+        <button onclick="location.href='/ping?host='+document.getElementById('h').value">Ping</button>
+    </div>
+
+    <div class="card">
+        <h3>Text4Shell <span class="badge">CVE-2022-42889</span></h3>
+        <p>Greet endpoint uses commons-text StringSubstitutor — try <code>${script:javascript:java.lang.Runtime.getRuntime().exec('id')}</code></p>
+        <input id="n" placeholder="name or payload" />
+        <button onclick="location.href='/greet?name='+document.getElementById('n').value">Greet</button>
+    </div>
+
+    <div class="card">
+        <h3>SSRF</h3>
+        <p>Fetch any URL — try internal AWS metadata: <code>http://169.254.169.254/latest/meta-data/</code></p>
+        <input id="u" placeholder="http://..." />
+        <button onclick="location.href='/fetch?url='+document.getElementById('u').value">Fetch</button>
+    </div>
+
+    <div class="card">
+        <h3>H2 Console (exposed)</h3>
+        <a href="/h2-console">Open H2 Console</a> — DB console exposed with no auth
+    </div>
+</body>
+</html>
